@@ -4,17 +4,28 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("Choose the task1");
+        Console.WriteLine("Choose the task");
         string input = Console.ReadLine();
         int taskNumber;
 
-        if (int.TryParse(input, out taskNumber) && taskNumber == 1)
+        if (int.TryParse(input, out taskNumber))
         {
-            Task1();
+            switch (taskNumber)
+            {
+                case 1:
+                    Task1();
+                    break;
+                case 2:
+                    Task2();
+                    break;
+                default:
+                    Console.WriteLine("Номер завдання повинен бути 1 або 2.");
+                    break;
+            }
         }
         else
         {
-            Console.WriteLine("Номер завдання повинен бути 1.");
+            Console.WriteLine("Введіть вірний номер завдання.");
         }
     }
 
@@ -25,6 +36,14 @@ class Program
         Console.WriteLine($"Периметр: {romb.CalculatePerimeter()}");
         Console.WriteLine($"Площа: {romb.CalculateArea()}");
         Console.WriteLine($"Чи є квадратом: {romb.IsSquare()}");
+    }
+
+    static void Task2()
+    {
+        // Ваш код для завдання 2 тут
+        VectorUshort vector = new VectorUshort(5, 3);
+        vector.DisplayVector();
+        Console.WriteLine($"Розмір: {vector.Size}");
     }
 }
 
@@ -155,4 +174,113 @@ public class Romb
         get { return c; }
         set { c = value; }
     }
+}
+
+public class VectorUshort
+{
+    protected ushort[] ArrayUShort;
+    protected uint num;
+    protected uint codeError;
+    protected static uint num_vs;
+
+    public VectorUshort()
+    {
+        ArrayUShort = new ushort[1];
+        num = 1;
+        num_vs++;
+    }
+
+    public VectorUshort(uint size)
+    {
+        ArrayUShort = new ushort[size];
+        num = size;
+        num_vs++;
+    }
+
+    public VectorUshort(uint size, ushort initValue)
+    {
+        ArrayUShort = new ushort[size];
+        for (int i = 0; i < size; i++)
+        {
+            ArrayUShort[i] = initValue;
+        }
+        num = size;
+        num_vs++;
+    }
+
+    ~VectorUshort()
+    {
+        Console.WriteLine("VectorUshort object is destroyed");
+    }
+
+    public void InputVector()
+    {
+        for (int i = 0; i < num; i++)
+        {
+            Console.Write("Enter element " + i + ": ");
+            ArrayUShort[i] = Convert.ToUInt16(Console.ReadLine());
+        }
+    }
+
+    public void DisplayVector()
+    {
+        for (int i = 0; i < num; i++)
+        {
+            Console.Write(ArrayUShort[i] + " ");
+        }
+        Console.WriteLine();
+    }
+
+    public void AssignValue(ushort value)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            ArrayUShort[i] = value;
+        }
+    }
+
+    public static uint GetNumVectors()
+    {
+        return num_vs;
+    }
+
+    public uint Size
+    {
+        get { return num; }
+    }
+
+    public uint CodeError
+    {
+        get { return codeError; }
+        set { codeError = value; }
+    }
+
+    public ushort this[int index]
+    {
+        get
+        {
+            if (index >= 0 && index < num)
+            {
+                return ArrayUShort[index];
+            }
+            else
+            {
+                codeError = 1;
+                return 0;
+            }
+        }
+        set
+        {
+            if (index >= 0 && index < num)
+            {
+                ArrayUShort[index] = value;
+            }
+            else
+            {
+                codeError = 1;
+            }
+        }
+    }
+
+    // Overloading operators and other methods are not included in this code snippet.
 }
